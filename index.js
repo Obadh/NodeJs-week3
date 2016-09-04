@@ -11,7 +11,8 @@ app.get('/todo' , function (request , response) {
       console.error('Error reading the file');
     } else{
       var lines = data.split('/n');
-      response.json({todo: lines});
+      console.log(lines);
+      response.json({todo: [lines]});
     }
   })
 })
@@ -37,10 +38,10 @@ app.delete('/todo/:id(\\d+)' , function (request , response){
   fs.readFile('./todo.txt', 'utf8', function (error, data) {
     if (error == null) {
       allTasks = data.split(/\n/);
-      task = allTasks[id - 1];
-      allTasks[id - 1] =allTasks.splice(id,1);
 
-    data = allTasks.join('\n');
+      allTasks.splice(id-1,1);
+
+      data = allTasks.join('\n');
 
     fs.writeFile(__dirname + '/todo.txt', data);
     response.end();
